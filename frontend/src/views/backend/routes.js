@@ -7,6 +7,15 @@ const BackEndRoutes = [
             title: 'Dashboard'
         }
     },
+    {
+        path: '/product',
+        name: 'Product',
+        component: () => import('./pages/product/index'),
+        meta     : {
+            title: 'Product'
+        }
+    },
+
 ]
 
 export default BackEndRoutes;
