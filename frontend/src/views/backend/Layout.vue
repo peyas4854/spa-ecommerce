@@ -37,6 +37,8 @@ export default {
         width: 192px;
         height: 100vh;
         background-color: #2d3748;
+        padding-top: 74px;
+        position: fixed;
 
         @media screen and (max-width: 767px) {
             width: 0;
@@ -46,7 +48,8 @@ export default {
     .main-contents {
         width: 100%;
         height: 100vh;
-        padding-left: 18px;
+        margin-left: 200px;
+        margin-top: 80px;
     }
 }
 </style>
