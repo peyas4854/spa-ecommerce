@@ -1,21 +1,26 @@
 const BackEndRoutes = [
     {
         path: '/dashboard',
-        name: 'Dashboard',
+        name: 'dashboard',
         component: () => import('./pages/Dashboard'),
         meta     : {
-            title: 'Dashboard'
+            title: 'Dashboard',
+            authOnly: true
+
         }
     },
     {
         path: '/product',
-        name: 'Product',
+        name: 'product',
         component: () => import('./pages/product/index'),
         meta     : {
-            title: 'Product'
+            title: 'Product',
+            authOnly: true
         }
     },
 
 ]
+
+
 
 export default BackEndRoutes;

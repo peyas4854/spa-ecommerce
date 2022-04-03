@@ -9,18 +9,20 @@ const FrontendRoutes = [
     },
     {
         path: '/login',
-        name: 'Login',
+        name: 'login',
         component: () => import('../backend/auth/Login'),
         meta     : {
-            title: 'Login'
+            title: 'Login',
+            guestOnly:true,
         }
     },
     {
         path: '/register',
-        name: 'Register',
+        name: 'register',
         component: () => import('../backend/auth/Register'),
         meta     : {
-            title: 'Register'
+            title: 'Register',
+            guestOnly:true,
         }
     },
 ]
