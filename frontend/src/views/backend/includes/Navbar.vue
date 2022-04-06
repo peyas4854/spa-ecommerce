@@ -1,35 +1,55 @@
 <template>
-<div>
-    <ul class="nav navbar-dark  justify-content-end p-3 topnavbar" style="background-color: #2d3748">
-        <li class="nav-item">
-            <div class="dropdown">
-                <button class="btn btn-info  dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                    User name
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <div>
+        <ul class="nav navbar-dark  justify-content-end p-3 dashboard_navbar">
+            <li class="nav-item">
+                <div class="dropdown">
+                    <button class="btn btn-info  dropdown-toggle" type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ getCurrentUser.name }}
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                    <li><a class="dropdown-item" href="#">Logout</a></li>
-                </ul>
-            </div>
-        </li>
-
-    </ul>
-</div>
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item " href="javascript:void(0)" @click="logout()">Logout</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
 </template>
 
 <script>
+import * as JwtService from "@/service/jwt.service";
+import ApiService      from "@/service/api.service";
+import { mapGetters }     from "vuex";
+
 export default {
-    name: "Navbar"
+    name   : "Navbar",
+    computed:{
+        ...mapGetters(['getCurrentUser']),
+    },
+    methods: {
+
+        logout() {
+            const token = JwtService.getToken();
+            if (typeof token != "undefined") {
+                ApiService.post('/logout').then(res => {
+                    JwtService.destroyToken();
+                    this.$router.push({name: "login"});
+                }).catch(error => {
+                    console.log('error', error);
+                })
+            }
+        }
+    }
 }
 </script>
 
 <style scoped>
-.topnavbar{
+.dashboard_navbar {
     position: fixed;
-
-    background: red;
     width: 100%;
+    background-color: #2d3748;
 }
 
 

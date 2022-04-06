@@ -5,8 +5,6 @@ const BackEndRoutes = [
         component: () => import('./pages/Dashboard'),
         meta     : {
             title: 'Dashboard',
-            authOnly: true
-
         }
     },
     {
@@ -15,7 +13,6 @@ const BackEndRoutes = [
         component: () => import('./pages/product/index'),
         meta     : {
             title: 'Product',
-            authOnly: true
         }
     },
 

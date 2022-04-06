@@ -54,6 +54,8 @@
 <script>
 
 import ApiService from "@/service/api.service";
+import JwtService from "@/service/jwt.service";
+
 
 export default {
     name: "Login.vue",
@@ -70,9 +72,14 @@ export default {
         login() {
 
             ApiService.post('/login', this.form).then((res) => {
-                localStorage.setItem("auth", "true");
+                console.log('res', res.data)
+                // localStorage.setItem("auth", "true");
+                // localStorage.setItem("access_token", "true");
+                // this.$router.push({name: "dashboard"});
+                JwtService.saveToken(res.data.access_token);
+                localStorage.setItem("expires_at", res.data.expires_at);
+                ApiService.init();
                 this.$router.push({name: "dashboard"});
-                console.log('res', res)
             }).catch((error) => {
                 console.log('res', error)
             });

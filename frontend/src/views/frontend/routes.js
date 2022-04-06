@@ -13,7 +13,6 @@ const FrontendRoutes = [
         component: () => import('../backend/auth/Login'),
         meta     : {
             title: 'Login',
-            guestOnly:true,
         }
     },
     {
@@ -22,7 +21,6 @@ const FrontendRoutes = [
         component: () => import('../backend/auth/Register'),
         meta     : {
             title: 'Register',
-            guestOnly:true,
         }
     },
 ]
