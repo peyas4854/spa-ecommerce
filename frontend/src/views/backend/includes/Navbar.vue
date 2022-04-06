@@ -50,6 +50,7 @@ export default {
     position: fixed;
     width: 100%;
     background-color: #2d3748;
+    z-index: 999;
 }
 
 
