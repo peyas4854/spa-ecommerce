@@ -1,13 +1,19 @@
 <template>
     <div>
-
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card ">
+                    <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Product list </h5>
-                            <div class="card-body">
+                            <div class="d-flex bd-highlight mb-3">
+                                <h2> Product List </h2>
+                                <router-link :to="{ name:'productCreate'}" class="btn btn-primary ms-auto">Add Create
+                                </router-link>
+                            </div>
+                            <div id="loader" v-if="loader">
+                                <loader/>
+                            </div>
+                            <div class="card-body" v-else>
                                 <table class="table table-striped">
                                     <thead>
                                     <tr>
@@ -19,7 +25,6 @@
                                     </tr>
                                     </thead>
                                     <tbody v-if="products.length">
-
                                     <tr v-for="(product,index) in products " :key="index">
                                         <th scope="row"> {{ ++index }}</th>
                                         <td>{{ product.name }}</td>
@@ -34,7 +39,6 @@
                                             </div>
                                         </td>
                                     </tr>
-
                                     </tbody>
                                 </table>
                                 <div>
@@ -66,11 +70,11 @@ export default {
                 per_page: 10,
                 search  : '',
             },
-
+            loader    : true,
         }
     },
     components: {
-        pagination
+        pagination,
     },
     mounted() {
         this.getProducts();
@@ -84,11 +88,12 @@ export default {
             ApiService.get('/product', {params: params}).then((response) => {
                 this.products   = response.data.data;
                 this.pagination = response.data.meta;
+                this.loader     = false;
             }).catch((error) => {
-                console.log('error',error)
+                console.log('error', error)
             });
-
         }
     }
 }
 </script>
+

@@ -10,4 +10,13 @@ class Product extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->created_by = auth()->id();
+        });
+    }
 }

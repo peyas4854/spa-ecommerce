@@ -70,12 +70,7 @@ export default {
     },
     methods: {
         login() {
-
             ApiService.post('/login', this.form).then((res) => {
-                console.log('res', res.data)
-                // localStorage.setItem("auth", "true");
-                // localStorage.setItem("access_token", "true");
-                // this.$router.push({name: "dashboard"});
                 JwtService.saveToken(res.data.access_token);
                 localStorage.setItem("expires_at", res.data.expires_at);
                 ApiService.init();

@@ -7,7 +7,6 @@
         <Footer/>
     </div>
 </template>
-
 <script>
 import Navbar from "./includes/Navbar";
 import Footer from "./includes/Footer";

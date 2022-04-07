@@ -12,7 +12,14 @@ const BackEndRoutes = [
         name: 'product',
         component: () => import('./pages/product/index'),
         meta     : {
-            title: 'Product',
+            title: 'Product List',
+        }
+    },{
+        path: '/product/create',
+        name: 'productCreate',
+        component: () => import('./pages/product/create'),
+        meta     : {
+            title: 'Product Create',
         }
     },
 
