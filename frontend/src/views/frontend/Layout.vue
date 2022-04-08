@@ -1,8 +1,9 @@
 <template>
     <div>
         <Navbar/>
-        <section class="bg-white container mx-auto mt-2">
+        <section id="front-main-content">
             <router-view/>
+
         </section>
         <Footer/>
     </div>
@@ -10,13 +11,15 @@
 <script>
 import Navbar from "./includes/Navbar";
 import Footer from "./includes/Footer";
+
 export default {
-    name: "Layout.vue",
-    components:{
+    name      : "Layout.vue",
+    components: {
         Navbar,
         Footer
 
     }
 }
 </script>
+
 

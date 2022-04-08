@@ -1,6 +1,10 @@
 // Global scss
 @import 'global';
 
-//backend
+//Backend
 @import "backend/layout";
 @import "backend/product/index";
+
+//Frontend
+@import "frontend/layout";
+@import "frontend/footer";

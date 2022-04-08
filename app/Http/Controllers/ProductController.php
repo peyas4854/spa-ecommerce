@@ -51,7 +51,6 @@ class ProductController extends BaseController
      */
     public function store(ProductRequest $request)
     {
-//        return $request->all();
         $product = new Product();
         if (!empty($request->image)) {
             $product->image = Helper::fileUpload($request->image);
@@ -71,7 +70,7 @@ class ProductController extends BaseController
      */
     public function show(Product $product)
     {
-        //
+        return new ProductResource($product);
     }
 
     /**
@@ -92,9 +91,19 @@ class ProductController extends BaseController
      * @param \App\Models\Product $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        //
+        if ($request->filled('image')) {
+            if (Storage::disk('public')->exists('products/' . $product->image)) {
+                Storage::disk('public')->delete('products/' . $product->image);
+            }
+
+            $product->image = Helper::fileUpload($request->image);
+        }
+        $request->offsetUnset('image');
+        $product->fill($request->all());
+        $product->update();
+        return $this->returnResponse("success", "Product Updated successfully", $product);
     }
 
     /**
@@ -109,6 +118,6 @@ class ProductController extends BaseController
             Storage::disk('public')->delete('products/' . $product->image);
         }
         $product->delete();
-        return $this->returnResponse("success", "Deleted successfully");
+        return $this->returnResponse("success", "Product Deleted successfully");
     }
 }

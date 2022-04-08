@@ -6,21 +6,27 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
 import './scss/main.scss'
 
+
 // fortawesome icon
 import {library}         from "@fortawesome/fontawesome-svg-core";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import {fas}             from '@fortawesome/free-solid-svg-icons'
+
 library.add(fas);
 import {fab}             from '@fortawesome/free-brands-svg-icons';
+
 library.add(fab);
 import {far}             from '@fortawesome/free-regular-svg-icons';
+
 library.add(far);
 import {dom}             from "@fortawesome/fontawesome-svg-core";
+
 dom.watch();
 
 //services
 import ApiService      from "@/service/api.service";
 import * as JwtService from "@/service/jwt.service";
+
 ApiService.init();
 
 //Global Component register
@@ -49,8 +55,17 @@ router.beforeEach((to, from, next) => {
 });
 
 // vue instance
-createApp(App).use(store)
+const app = createApp(App)
+
+app.config.globalProperties.$filters = {
+    currencyTK(value) {
+        return 'Tk. ' + value
+    }
+}
+app.use(store)
     .use(router)
     .component("font-awesome-icon", FontAwesomeIcon)
     .component("loader", RotateSquare2)
     .mount('#app')
+
+

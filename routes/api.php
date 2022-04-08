@@ -18,15 +18,24 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
     Route::post('/logout', [AuthController::class, 'logout']);
-
     Route::apiResource( '/product', \App\Http\Controllers\ProductController::class);
+});
+
+//FrontEndRoutes
+Route::group(['prefix' =>'frontend'],function(){
+
+    Route::get('/products', [\App\Http\Controllers\Front\FrontEndController::class, 'getProducts']);
 
 });
+
+
+
+
+
+

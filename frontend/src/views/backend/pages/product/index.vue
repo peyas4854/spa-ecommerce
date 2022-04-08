@@ -41,8 +41,12 @@
                                     </td>
                                     <td>
                                         <div class="d-grid gap-2 d-md-block">
-                                            <router-link :to="{name:'productEdit',params:{id: product.id}}" class="btn btn-primary m-1" type="button">Edit</router-link>
-                                            <button class="btn btn-danger" type="button" >Delete</button>
+                                            <router-link :to="{name:'productEdit',params:{id: product.id}}"
+                                                         class="btn btn-primary m-1" type="button">Edit
+                                            </router-link>
+                                            <button class="btn btn-danger" type="button" @click="destroy(product.id)">
+                                                Delete
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -70,6 +74,7 @@
 <script>
 import ApiService from '@/service/api.service';
 import pagination from '@/components/Pagination';
+import SweetAlert from "@/service/sweetalert";
 
 export default {
     name: "index",
@@ -83,7 +88,8 @@ export default {
                 per_page: 10,
                 search  : '',
             },
-            loader    : true,
+            loader    : false,
+
         }
     },
     components: {
@@ -94,7 +100,8 @@ export default {
     },
     methods: {
         getProducts() {
-            let params = {
+            this.loader = true;
+            let params  = {
                 ...this.form,
                 page: this.pagination.current_page
             }
@@ -107,7 +114,13 @@ export default {
             });
         },
         destroy(id) {
-            console.log('id',id);
+            console.log('id', id);
+            ApiService.delete(`/product/${id}`).then((response) => {
+                this.getProducts();
+                SweetAlert.success(response.data.message);
+            }).catch((error) => {
+                console.log('error', error)
+            });
         },
     }
 }
