@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\Helper;
 use App\Http\Controllers\Base\BaseController;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\service\ProductService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends BaseController
 {
@@ -49,7 +51,12 @@ class ProductController extends BaseController
      */
     public function store(ProductRequest $request)
     {
+//        return $request->all();
         $product = new Product();
+        if (!empty($request->image)) {
+            $product->image = Helper::fileUpload($request->image);
+        }
+        $request->offsetUnset('image');
         $product->fill($request->all());
         $product->save();
         return $this->returnResponse('success','Product created successfully',$product,200);
@@ -98,6 +105,10 @@ class ProductController extends BaseController
      */
     public function destroy(Product $product)
     {
-        //
+        if (Storage::disk('public')->exists('products/' . $product->image)) {
+            Storage::disk('public')->delete('products/' . $product->image);
+        }
+        $product->delete();
+        return $this->returnResponse("success", "Deleted successfully");
     }
 }

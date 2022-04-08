@@ -1,0 +1,14 @@
+#search-box {
+    width: 75vh;
+    height: 9vh;
+    display: flex;
+}
+.product-table {
+    td, th {
+        vertical-align: middle;
+
+        .product-image {
+            width: 100px;
+        }
+    }
+}
