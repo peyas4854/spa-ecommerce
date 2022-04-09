@@ -1,5 +1,6 @@
 import {createStore} from 'vuex';
 import ApiService    from "@/service/api.service";
+import router        from "@/router";
 
 
 export default createStore({
@@ -17,6 +18,16 @@ export default createStore({
             console.log()
             return state.user = data
         },
+        REDIRECT_AFTER_LOGIN(state, user) {
+            console.log('router', router);
+            console.log('REDIRECT_AFTER_LOGIN', user);
+            if (user.is_admin == 1) {
+                router.push({name: "dashboard"});
+
+            } else {
+                router.push({name: 'home'});
+            }
+        }
     },
     actions  : {
         getUser(context) {

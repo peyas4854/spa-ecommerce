@@ -37,7 +37,7 @@ router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requireAuth)) {
         if (!JwtService.getToken()) {
             next({
-                name  : 'login',
+                name  : 'home',
                 params: {nextUrl: to.fullPath}
             })
         } else {
@@ -47,7 +47,7 @@ router.beforeEach((to, from, next) => {
                 next()
             }).catch(error => {
                 JwtService.destroyToken();
-                next({name: 'login'})
+                next({name: 'home'})
             })
         }
     }

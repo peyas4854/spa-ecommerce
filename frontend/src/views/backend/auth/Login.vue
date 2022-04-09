@@ -55,6 +55,8 @@
 
 import ApiService from "@/service/api.service";
 import JwtService from "@/service/jwt.service";
+import SweetAlert from "@/service/sweetalert";
+import store      from "@/store";
 
 
 export default {
@@ -69,14 +71,18 @@ export default {
 
     },
     methods: {
+
         login() {
             ApiService.post('/login', this.form).then((res) => {
+                console.log('res',res.data);
                 JwtService.saveToken(res.data.access_token);
                 localStorage.setItem("expires_at", res.data.expires_at);
                 ApiService.init();
-                this.$router.push({name: "dashboard"});
-            }).catch((error) => {
-                console.log('res', error)
+                store.commit("REDIRECT_AFTER_LOGIN",res.data.user);
+                SweetAlert.success(res.data.message);
+            }).catch((errors) => {
+                SweetAlert.error(errors.response.data.message);
+                console.log('error', errors.response.data.message);
             });
         }
     }

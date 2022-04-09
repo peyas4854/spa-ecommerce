@@ -28,6 +28,7 @@
 import ApiService  from "@/service/api.service";
 import ProductCard from "@/components/frontend/product-card";
 import pagination  from '@/components/Pagination';
+import SweetAlert  from "@/service/sweetalert";
 
 
 export default {
@@ -61,12 +62,11 @@ export default {
                 page: this.pagination.current_page
             }
             ApiService.get('frontend/products', {params: params}).then((response) => {
-                console.log('res', response);
                 this.products   = response.data.data;
                 this.pagination = response.data.meta;
                 this.loader     = false;
             }).catch((error) => {
-                console.log('error', error)
+                SweetAlert.error(error.data.message);
             });
         },
     }

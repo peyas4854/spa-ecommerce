@@ -44,39 +44,4 @@ const router = createRouter({
     routes
 })
 
-function isLoggedIn() {
-    return localStorage.getItem("auth");
-}
-
-// router.beforeEach((to, from, next) => {
-//     if (to.matched.some(record => record.meta.authOnly)) {
-//         console.log('here1');
-//         // this route requires auth, check if logged in
-//         // if not, redirect to login page.
-//         if (!isLoggedIn()) {
-//             console.log('here2');
-//             next({
-//                 name  : "login",
-//                 params: {nextUrl: to.fullPath}
-//             });
-//         } else {
-//             next();
-//         }
-//     } else if (to.matched.some(record => record.meta.guestOnly)) {
-//         // this route requires auth, check if logged in
-//         console.log('dashboard');
-//         // if not, redirect to login page.
-//         if (isLoggedIn()) {
-//             next({
-//                 name  : "dashboard",
-//                 params: {nextUrl: to.fullPath}
-//             });
-//         } else {
-//             next();
-//         }
-//     } else {
-//         next(); // make sure to always call next()!
-//     }
-// });
-
 export default router
