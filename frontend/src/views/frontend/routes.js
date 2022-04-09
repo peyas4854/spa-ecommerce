@@ -8,6 +8,14 @@ const FrontendRoutes = [
         }
     },
     {
+        path: '/product/:id',
+        name: 'ProductDetail',
+        component: () => import('./pages/product/ProductDetail'),
+        meta     : {
+            title: 'Home'
+        }
+    },
+    {
         path: '/login',
         name: 'login',
         component: () => import('../backend/auth/Login'),
