@@ -12,7 +12,15 @@ const FrontendRoutes = [
         name: 'ProductDetail',
         component: () => import('./pages/product/ProductDetail'),
         meta     : {
-            title: 'Home'
+            title: 'Product Detail'
+        }
+    },
+    {
+        path: '/about',
+        name: 'about',
+        component: () => import('./pages/about'),
+        meta     : {
+            title: 'About'
         }
     },
     {

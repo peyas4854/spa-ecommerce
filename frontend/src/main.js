@@ -35,23 +35,60 @@ import {RotateSquare2} from 'vue-loading-spinner'
 // route check
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requireAuth)) {
+        console.log('one');
         if (!JwtService.getToken()) {
+            console.log("two");
             next({
-                name  : 'home',
+                name  : 'login',
                 params: {nextUrl: to.fullPath}
             })
         } else {
-            ApiService.get('/user').then(response => {
-                console.log('user data', response.data);
-                store.commit("GET_USER", response.data);
-                next()
-            }).catch(error => {
-                JwtService.destroyToken();
-                next({name: 'home'})
-            })
+            console.log("herrrrrrrr");
+            authUser(JwtService.getLoggedUser())
+
+        }
+    } else if (JwtService.getLoggedUser() == 'user') {
+        console.log("four");
+        authUser('user')
+    }
+
+    //if user logged and user state login page then redirect to dashboard
+    if (to.name == 'login') {
+        console.log("five");
+        if (JwtService.getToken()) {
+            if (JwtService.getLoggedUser() == 'admin') {
+                next({
+                    name  : 'dashboard',
+                    params: {nextUrl: to.fullPath}
+                })
+
+            } else {
+                console.log('home home ')
+                next({
+                    name  : 'home',
+                    params: {nextUrl: to.fullPath}
+                })
+            }
         }
     }
+
+    //Logged user data return then commit in vuex
+    function authUser(type) {
+        ApiService.get(`/${type}/auth`).then(response => {
+            console.log('res',response.data);
+            store.commit("SET_USER", response.data);
+            // store.commit("REDIRECT_AFTER_LOGIN", response.data);
+            // next()
+        }).catch(error => {
+            JwtService.destroyToken();
+            next({name: `login`})
+        })
+    }
+
     next();
+    Vue.nextTick(() => {
+        document.title = `${to.meta.title} - ${process.env.VUE_APP_TITLE}` || process.env.VUE_APP_TITLE
+    })
 });
 
 // vue instance

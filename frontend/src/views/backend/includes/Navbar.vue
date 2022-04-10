@@ -8,7 +8,6 @@
                         {{ getCurrentUser.name }}
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-
                         <li><a class="dropdown-item" href="#">Profile</a></li>
                         <li><a class="dropdown-item " href="javascript:void(0)" @click="logout()">Logout</a></li>
                     </ul>
@@ -21,7 +20,9 @@
 <script>
 import * as JwtService from "@/service/jwt.service";
 import ApiService      from "@/service/api.service";
-import { mapGetters }     from "vuex";
+import SweetAlert      from "@/service/sweetalert";
+import { mapGetters }  from "vuex";
+import store           from "@/store";
 
 export default {
     name   : "Navbar",
@@ -34,7 +35,10 @@ export default {
             const token = JwtService.getToken();
             if (typeof token != "undefined") {
                 ApiService.post('/logout').then(res => {
+
                     JwtService.destroyToken();
+                    store.commit("LOG_OUT", {});
+                    SweetAlert.info(res.data.message)
                     this.$router.push({name: "login"});
                 }).catch(error => {
                     console.log('error', error);
@@ -52,6 +56,4 @@ export default {
     background-color: #2d3748;
     z-index: 999;
 }
-
-
 </style>

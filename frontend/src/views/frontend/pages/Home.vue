@@ -11,8 +11,10 @@
                            v-model="form.search">
                 </div>
             </div>
-
-            <div class="row">
+            <div id="loader" v-if="loader">
+                <loader/>
+            </div>
+            <div class="row" v-else>
                 <template v-for="(product,index) in products" :key="index">
                     <ProductCard :product="product"></ProductCard>
                 </template>

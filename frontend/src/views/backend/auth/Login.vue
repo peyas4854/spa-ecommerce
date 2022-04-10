@@ -19,9 +19,6 @@
                                     <input type="password" class="form-control" id="password" v-model="form.password">
                                 </div>
                                 <div class="mb-3 form-check">
-                                    <!--                                <input type="checkbox" class="form-check-input" id="exampleCheck1">-->
-                                    <!--                                <label class="form-check-label" for="exampleCheck1">Check me out</label>-->
-
                                     <div class="d-flex bd-highlight">
                                         <div class=" flex-grow-1 bd-highlight">
                                             <input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -58,7 +55,6 @@ import JwtService from "@/service/jwt.service";
 import SweetAlert from "@/service/sweetalert";
 import store      from "@/store";
 
-
 export default {
     name: "Login.vue",
     data() {
@@ -66,19 +62,14 @@ export default {
             form: {}
         }
     },
-    mounted() {
-
-
-    },
     methods: {
-
         login() {
             ApiService.post('/login', this.form).then((res) => {
-                console.log('res',res.data);
+                console.log('res', res.data);
                 JwtService.saveToken(res.data.access_token);
                 localStorage.setItem("expires_at", res.data.expires_at);
                 ApiService.init();
-                store.commit("REDIRECT_AFTER_LOGIN",res.data.user);
+                store.commit("REDIRECT_AFTER_LOGIN", res.data.user);
                 SweetAlert.success(res.data.message);
             }).catch((errors) => {
                 SweetAlert.error(errors.response.data.message);

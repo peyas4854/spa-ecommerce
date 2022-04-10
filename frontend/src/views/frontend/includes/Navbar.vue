@@ -13,25 +13,25 @@
                         <router-link to="/" class="nav-link active" aria-current="page">Home</router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <router-link to="/about" class="nav-link">About</router-link>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
-                    <li class="nav-item">
+                    <li class="nav-item" v-if="!user.name">
                         <router-link to="login" type="button" class="btn btn-primary me-2"
-                                data-bs-toggle="tooltip" data-bs-placement="top" title="Login"
+                                     data-bs-toggle="tooltip" data-bs-placement="top" title="Login"
                         ><i class="fa-solid fa-user"></i></router-link>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" v-if="user.name">
                         <div class="dropdown">
                             <button class="btn btn-info   dropdown-toggle" type="button" id="navbarDropdown"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                               User name
+                                {{ getCurrentUser.name }}
                             </button>
 
                             <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
 
-                                <li><a class="dropdown-item " href="javascript:void(0)">Logout</a></li>
+                                <li><a class="dropdown-item " @click="logout()">Logout</a></li>
                             </ul>
                         </div>
                     </li>
@@ -42,7 +42,36 @@
 </template>
 
 <script>
+import {mapGetters, mapState} from "vuex";
+import * as JwtService        from "@/service/jwt.service";
+import ApiService             from "@/service/api.service";
+import store                  from "@/store";
+import SweetAlert             from "@/service/sweetalert";
+
 export default {
-    name: "Navbar"
+    name: "Navbar",
+
+    computed: {
+        ...mapGetters(['getCurrentUser']),
+        ...mapState(['user']),
+
+    },
+    methods: {
+        logout() {
+            const token = JwtService.getToken();
+            if (typeof token != "undefined") {
+                ApiService.post('/frontend/logout').then(res => {
+                    console.log('res',res)
+                    JwtService.destroyToken();
+                    store.commit("LOG_OUT", {});
+                    SweetAlert.info(res.data.message)
+                    this.$router.push({name: "login"});
+                }).catch(error => {
+                    console.log('error', error);
+                })
+            }
+        }
+    }
+
 }
 </script>

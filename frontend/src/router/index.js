@@ -16,7 +16,10 @@ const routes = [
     {
         path     : '/',
         component: FrontEndLayout,
-        children : FrontEndRoutes
+        children : FrontEndRoutes,
+        meta     : {
+            requireAuth: true,
+        }
     },
     //==========Frontend routing==========
     {

@@ -95,8 +95,9 @@ export default {
             })
         },
         update(){
-            ApiService.update(`/product/${this.form.id}`, this.form)
+            ApiService.update(`/product/${this.$route.params.id}`, this.form)
                 .then((res) => {
+                    console.log('res',res);
                     SweetAlert.success(res.data.message)
                     this.$router.push({name: "product"});
             }).catch(error => {

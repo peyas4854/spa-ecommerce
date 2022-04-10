@@ -27,7 +27,7 @@ class ProductController extends BaseController
      */
     public function index(Request $request)
     {
-        $products  =  $this->productService->index($request);
+        $products = $this->productService->index($request);
 
         return ProductResource::collection($products);
 
@@ -58,7 +58,7 @@ class ProductController extends BaseController
         $request->offsetUnset('image');
         $product->fill($request->all());
         $product->save();
-        return $this->returnResponse('success','Product created successfully',$product,200);
+        return $this->returnResponse('success', 'Product created successfully', $product, 200);
 
     }
 
@@ -93,16 +93,18 @@ class ProductController extends BaseController
      */
     public function update(ProductRequest $request, Product $product)
     {
+        $data = [
+            'name'        => $request->name,
+            'price'       => $request->price,
+            'description' => $product->image,
+        ];
         if ($request->filled('image')) {
             if (Storage::disk('public')->exists('products/' . $product->image)) {
                 Storage::disk('public')->delete('products/' . $product->image);
             }
-
-            $product->image = Helper::fileUpload($request->image);
+            $data['image'] = Helper::fileUpload($request->image);
         }
-        $request->offsetUnset('image');
-        $product->fill($request->all());
-        $product->update();
+        $product->update($data);
         return $this->returnResponse("success", "Product Updated successfully", $product);
     }
 
