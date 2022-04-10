@@ -6,7 +6,6 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
 import './scss/main.scss'
 
-
 // fortawesome icon
 import {library}         from "@fortawesome/fontawesome-svg-core";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
@@ -35,20 +34,16 @@ import {RotateSquare2} from 'vue-loading-spinner'
 // route check
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requireAuth)) {
-        console.log('one');
         if (!JwtService.getToken()) {
-            console.log("two");
             next({
                 name  : 'login',
                 params: {nextUrl: to.fullPath}
             })
         } else {
-            console.log("herrrrrrrr");
             authUser(JwtService.getLoggedUser())
 
         }
     } else if (JwtService.getLoggedUser() == 'user') {
-        console.log("four");
         authUser('user')
     }
 
@@ -75,10 +70,9 @@ router.beforeEach((to, from, next) => {
     //Logged user data return then commit in vuex
     function authUser(type) {
         ApiService.get(`/${type}/auth`).then(response => {
-            console.log('res',response.data);
+            console.log('res', response.data);
             store.commit("SET_USER", response.data);
-            // store.commit("REDIRECT_AFTER_LOGIN", response.data);
-            // next()
+            next()
         }).catch(error => {
             JwtService.destroyToken();
             next({name: `login`})
