@@ -37,4 +37,15 @@
 
     php artisan serve
 
+### Credentials 
+
+    Admin Panel 
+    ======
+    Email: admin@gmail.com 
+    password - 1234678
+    User Panel 
+    ========
+    Email: user@gmail.com
+    password - 1234678
+
 
