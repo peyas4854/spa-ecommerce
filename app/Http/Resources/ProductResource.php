@@ -20,7 +20,7 @@ class ProductResource extends JsonResource
             'name'        => $this->name,
             'price'       => $this->price,
             'description' => $this->description,
-            'image'       => Storage::disk('public')->url("products/{$this->image}"),
+            'image'       => Storage::disk('public')->url("images/{$this->image}"),
         ];
     }
 }

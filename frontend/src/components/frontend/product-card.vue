@@ -6,6 +6,7 @@
                     <img
                         :src="product.image" v-if="product.image !=null"
                         class="card-product-image" alt="">
+
                     <img v-else
                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDvqSCx7xcaN-TMoOANaAI82JhDjct3UCIfsPGonu4otCtZOYpSNXn15jcpzQ8A0wcpoQ&usqp=CAU"
                          class="card-product-image" alt="Image not found">
